@@ -46,7 +46,7 @@ platformCollisions2D.forEach((row, y)=>{
 })
 
 
-const gravity = 0.2
+const gravity = 0.175
 
 const player = new Player({
     position: {
@@ -56,6 +56,31 @@ const player = new Player({
     collisionBlocks,
     imageSrc: 'img/warrior/Idle.png',
     frameRate: 8,
+    animations: {
+        Idle: {
+            imageSrc: 'img/warrior/Idle.png',
+            frameRate: 8,
+            frameBuffer: 10
+        },
+
+        Run: {
+            imageSrc: 'img/warrior/Run.png',
+            frameRate: 8,
+            frameBuffer: 16
+        },
+        
+        Jump: {
+            imageSrc: 'img/warrior/Jump.png',
+            frameRate: 2,
+            frameBuffer: 10
+        },
+        
+        Fall: {
+            imageSrc: 'img/warrior/Fall.png',
+            frameRate: 2,
+            frameBuffer: 10
+        },
+    },
 })
 
 const keys = {
@@ -97,8 +122,26 @@ function animate(){
     player.update()
     
     player.velocity.x = 0
-    if(keys.d.pressed) player.velocity.x = 2
-    else if(keys.a.pressed) player.velocity.x = -2
+    if(keys.d.pressed) {
+        player.switchSprite('Run')
+        player.velocity.x = 1.5
+    }
+    else if(keys.a.pressed) player.velocity.x = -1.5
+
+    else if(player.velocity.y === 0){
+        player.switchSprite('Idle')
+    }
+
+    if(player.velocity.y < 0){
+        player.switchSprite('Jump')
+    }
+
+    else if(player.velocity.y > 0){
+        player.switchSprite('Fall')
+    }
+
+
+
     c.restore()
     
 
@@ -118,7 +161,7 @@ window.addEventListener('keydown', (event)=>{
             break
 
         case ' ':
-            player.velocity.y = -6
+            player.velocity.y = -5
             break
     }
 })
