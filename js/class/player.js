@@ -19,6 +19,8 @@ class Player extends Sprite{
         }
     }
 
+
+    
     update() {
         this.updateFrames()
         c.fillStyle = 'rgba(0,255,0,0.5)'
