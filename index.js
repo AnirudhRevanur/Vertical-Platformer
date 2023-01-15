@@ -54,7 +54,7 @@ const gravity = 0.07
 const player = new Player({
     position: {
         x: 120,
-        y:0,
+        y:300,
     },
     collisionBlocks,
     platformCollisionBlocks,
@@ -130,6 +130,13 @@ const background = new Sprite({
     imageSrc: './img/background.png'
 })
 
+const camera = {
+    position: {
+        x: 0,
+        y: 0,
+    }
+}
+
 function animate(){
     window.requestAnimationFrame(animate)
     
@@ -139,7 +146,7 @@ function animate(){
 
     c.save()
     c.scale(4,4)
-    c.translate(0, -background.image.height + scaledCanvas.height)
+    c.translate(camera.position.x, -background.image.height + scaledCanvas.height)
     background.update()
     collisionBlocks.forEach((collisionBlock)=>{
         collisionBlock.update()
@@ -147,6 +154,7 @@ function animate(){
     platformCollisionBlocks.forEach((block)=>{
         block.update()
     })
+    player.checkForHorizontalCanvasCollisions()
     player.update()
     
     player.velocity.x = 0
@@ -154,11 +162,13 @@ function animate(){
         player.switchSprite('Run')
         player.velocity.x = 1.5
         player.lastDirection = 'right'
+        player.shouldPanCameraToTheLeft({scaledCanvas, camera})
     }
     else if(keys.a.pressed) {
         player.switchSprite('RunLeft')
         player.velocity.x = -1.5
         player.lastDirection = 'left'
+        player.shouldPanCameraToTheRight({scaledCanvas, camera})
     }
 
     else if(player.velocity.y === 0){
