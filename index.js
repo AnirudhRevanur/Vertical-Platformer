@@ -40,20 +40,24 @@ platformCollisions2D.forEach((row, y)=>{
             platformCollisionBlocks.push(new CollisionBlock({position:{
                 x: x*16,
                 y: y*16,
-            }}))
-        }
+            },
+            height: 4
+        })
+        )
+    }
     })
 })
 
 
-const gravity = 0.175
+const gravity = 0.07
 
 const player = new Player({
     position: {
-        x: 100,
+        x: 120,
         y:0,
     },
     collisionBlocks,
+    platformCollisionBlocks,
     imageSrc: 'img/warrior/Idle.png',
     frameRate: 8,
     animations: {
@@ -202,7 +206,7 @@ window.addEventListener('keydown', (event)=>{
             break
 
         case ' ':
-            player.velocity.y = -5
+            player.velocity.y = -3
             break
     }
 })
