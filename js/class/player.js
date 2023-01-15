@@ -58,8 +58,8 @@ class Player extends Sprite{
         this.updateHitbox()
         this.updateCameraBox()
 
-        c.fillStyle = 'rgba(0,0,255,0.5)'
-        c.fillRect(this.cameraBox.position.x, this.cameraBox.position.y, this.cameraBox.width, this.cameraBox.height)
+        // c.fillStyle = 'rgba(0,0,255,0.5)'
+        // c.fillRect(this.cameraBox.position.x, this.cameraBox.position.y, this.cameraBox.width, this.cameraBox.height)
 
         //draws the image
         // c.fillStyle = 'rgba(0,255,0,0.5)'
@@ -123,6 +123,24 @@ class Player extends Sprite{
             camera.position.x -= this.velocity.x
         }
     }
+
+    shouldPanCameraDown({scaledCanvas, camera}){
+        if(this.cameraBox.position.y + this.velocity.y <= 0) return
+
+        if(this.cameraBox.position.y <= Math.abs(camera.position.y)){
+            camera.position.y -= this.velocity.y
+        }
+    }
+
+
+    shouldPanCameraUp({scaledCanvas, camera}){
+        if(this.cameraBox.position.y + this.cameraBox.height + this.velocity.y >= 432) return
+
+        if(this.cameraBox.position.y + this.cameraBox.height >= Math.abs(camera.position.y) + scaledCanvas.height){
+            camera.position.y -= this.velocity.y
+        }
+    }
+
 
     checkForHorizontalCollisions() {
         for(let i=0; i<this.collisionBlocks.length; i++){
