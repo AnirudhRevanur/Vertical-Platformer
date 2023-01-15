@@ -19,6 +19,7 @@ class Player extends Sprite{
         }
 
         this.animations = animations
+        this.lastDirection = 'right'
 
         for (let key in this.animations) {
             const image = new Image()
@@ -32,6 +33,8 @@ class Player extends Sprite{
 
     switchSprite(key) {
         if(this.image === this.animations[key].image || !this.loaded) return
+
+        this.currentFrame = 0
         this.image = this.animations[key].image
         this.frameBuffer = this.animations[key].frameBuffer
         this.frameRate = this.animations[key].frameRate

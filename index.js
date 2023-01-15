@@ -80,6 +80,30 @@ const player = new Player({
             frameRate: 2,
             frameBuffer: 10
         },
+
+        FallLeft: {
+            imageSrc: 'img/warrior/FallLeft.png',
+            frameRate: 2,
+            frameBuffer: 10
+        },
+        
+        RunLeft: {
+            imageSrc: 'img/warrior/RunLeft.png',
+            frameRate: 8,
+            frameBuffer: 16
+        },
+
+        IdleLeft: {
+            imageSrc: 'img/warrior/IdleLeft.png',
+            frameRate: 8,
+            frameBuffer: 10
+        },
+
+        JumpLeft: {
+            imageSrc: 'img/warrior/JumpLeft.png',
+            frameRate: 2,
+            frameBuffer: 10
+        },
     },
 })
 
@@ -125,19 +149,36 @@ function animate(){
     if(keys.d.pressed) {
         player.switchSprite('Run')
         player.velocity.x = 1.5
+        player.lastDirection = 'right'
     }
-    else if(keys.a.pressed) player.velocity.x = -1.5
+    else if(keys.a.pressed) {
+        player.switchSprite('RunLeft')
+        player.velocity.x = -1.5
+        player.lastDirection = 'left'
+    }
 
     else if(player.velocity.y === 0){
-        player.switchSprite('Idle')
+        if(player.lastDirection === 'right')
+            player.switchSprite('Idle')
+
+        else
+            player.switchSprite('IdleLeft')
     }
 
     if(player.velocity.y < 0){
-        player.switchSprite('Jump')
+        if(player.lastDirection === 'right')
+            player.switchSprite('Jump')
+
+        else
+            player.switchSprite('JumpLeft')
     }
 
     else if(player.velocity.y > 0){
-        player.switchSprite('Fall')
+        if(player.lastDirection === 'right')
+            player.switchSprite('Fall')
+
+        else
+            player.switchSprite('FallLeft')
     }
 
 
